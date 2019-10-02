@@ -4,15 +4,30 @@
              xmlns:local="clr-namespace:AppDB"
              x:Class="AppDB.MainPage">
 
-    <StackLayout>
-        <ListView x:Name="listView">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextCell Text="{Binding Info}"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <Button Text="Inserir" x:Name="buttonInserir" Clicked="ButtonInserir_Clicked"/>
-    </StackLayout>
 
+    <StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <Button Text="Inserir" 
+                    x:Name="buttonInserir" 
+                    Clicked="ButtonInserir_Clicked"
+                    HorizontalOptions="FillAndExpand"/>
+        </StackLayout>
+        <ScrollView>
+            <StackLayout>
+                <Label x:Name="labelDados" />
+                <ListView x:Name="listView">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid>
+                                    <Label Text="{Binding ID}" Margin="0,0,20,0" />
+                                    <Label Text="{Binding Info}" Margin="20,0,0,0"/>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </ScrollView>
+    </StackLayout>
 </ContentPage>

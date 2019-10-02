@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,8 +25,8 @@ namespace AppDB
 
         private void CarregarInformacoes()
         {
-            var lista = ((App)Application.Current).Conexao.Query<Model>("SELECT info FROM informacoes");
-            listView.ItemsSource = lista;
+            var lista = ((App)Application.Current).Conexao.Query<Model>("SELECT * FROM informacoes");
+            listView.ItemsSource = lista;        
         }
     }
 }
