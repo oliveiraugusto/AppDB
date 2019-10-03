@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppDB.Class;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -10,22 +11,17 @@ namespace AppDB
 {
     public partial class MainPage : ContentPage
     {
+        protected Informacoes informacoes = new Informacoes();
+
         public MainPage()
         {
             InitializeComponent();
             CarregarInformacoes();
         }
 
-        private void ButtonInserir_Clicked(object sender, EventArgs e)
-        {
-            var query = $"INSERT INTO informacoes (info) VALUES ('{DateTime.Now}')";
-            ((App)Application.Current).Conexao.Execute(query);
-            CarregarInformacoes();
-        }
-
         private void CarregarInformacoes()
         {
-            var lista = ((App)Application.Current).Conexao.Query<Model>("SELECT * FROM informacoes");
+            var lista = informacoes.SelectAll();
             listView.ItemsSource = lista;        
         }
 
@@ -33,41 +29,44 @@ namespace AppDB
         {
             var mi = (MenuItem)sender;
             var model = (Model)mi.CommandParameter;
-            var resultado = ((App)Application.Current).Conexao.Execute($"UPDATE informacoes SET info = '{DateTime.Now}' WHERE id = {model.ID}");
-            DisplayAlert("Sucesso!", "Dados atualizados", "OK");
+
+            bool resultadoUpdate = informacoes.Update(model.ID);
+            if (resultadoUpdate == true)
+                DisplayAlert("Sucesso!", "Atualizado", "OK");
+            else
+                DisplayAlert("Ops...", "Houve um erro", "OK");
             CarregarInformacoes();
         }
 
         private void ButtonAdicionar_Clicked(object sender, EventArgs e)
         {
-            try
-            {
-                var lista = ((App)Application.Current).Conexao.Execute($"INSERT INTO informacoes (info) VALUES ('{DateTime.Now}')");
-                DisplayAlert("Sucesso!", "Item salvo!", "OK");
-                CarregarInformacoes();
-            }
-            catch (Exception ex)
-            {
-                DisplayAlert("ERRO", ex.Message, "OK");
-            }
+            bool resultadoInsert = informacoes.Inserir(DateTime.Now);
+            if (resultadoInsert == true)
+                DisplayAlert("Sucesso!", "Inserido", "OK");
+            else
+                DisplayAlert("Ops...", "Houve um erro", "OK");
+            CarregarInformacoes();
         }
 
         private async void ButtonApagarTudo_Clicked(object sender, EventArgs e)
         {
-            var resposta = await DisplayAlert("Confimação", "tem certeza que deseja deletar todas as informações?", "SIM", "NÃO");
-            if (resposta == true)
+            var respostaConfirmacao = await DisplayAlert("Confimação", "tem certeza que deseja deletar todas as informações?", "SIM", "NÃO");
+            if (respostaConfirmacao == true)
             {
                 try
                 {
-                    var lista = ((App)Application.Current).Conexao.Execute($"DELETE FROM informacoes");
-                    await DisplayAlert("Sucesso!", "Todas as informações foram deletadas!", "OK");
-                    CarregarInformacoes();
+                    var resultadoDeleteAll = informacoes.DeleteAll();
+                    if (resultadoDeleteAll == true)
+                        await DisplayAlert("Sucesso!", "Inserido", "OK");
+                    else
+                        await DisplayAlert("Ops...", "Houve um erro", "OK");                    
                 }
                 catch (Exception ex)
                 {
                    await DisplayAlert("ERRO", ex.Message, "OK");
                 }
             }
+            CarregarInformacoes();
         }
 
         private async void MenuItemApagar_Clicked(object sender, EventArgs e)
@@ -79,15 +78,18 @@ namespace AppDB
                 {
                     var mi = (MenuItem)sender;
                     var model = (Model)mi.CommandParameter;
-                    ((App)Application.Current).Conexao.Execute($"DELETE FROM informacoes WHERE id = {model.ID}");
-                    await DisplayAlert("Sucesso!", "Informaçao deletada!", "OK");
-                    CarregarInformacoes();
+                    var resultadoDeleteItem = informacoes.DeleteItem(model.ID);
+                    if (resultadoDeleteItem == true)
+                        await DisplayAlert("Sucesso!", "Item Deletado", "OK");
+                    else
+                        await DisplayAlert("Ops...", "Houve um erro", "OK");                    
                 }
                 catch (Exception ex)
                 {
                     await DisplayAlert("ERRO", ex.Message, "OK");
                 }
             }
+            CarregarInformacoes();
         }
     }
 }
