@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppDB.iOS", "AppDB\AppDB.iO
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppDB.UWP", "AppDB\AppDB.UWP\AppDB.UWP.csproj", "{6F0AD8C2-B3DE-450F-B858-5712D061B85E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppDB", "AppDB\AppDB\AppDB.csproj", "{21C4FFA9-CBD4-4C50-97EF-0162B52A9FBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppDB", "AppDB\AppDB\AppDB.csproj", "{21C4FFA9-CBD4-4C50-97EF-0162B52A9FBE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

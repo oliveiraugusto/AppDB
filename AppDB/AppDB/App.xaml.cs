@@ -3,6 +3,8 @@ using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+//Para fazermos 
+
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace AppDB
 {
